@@ -16,6 +16,7 @@ class Navigator {
     
     private let navigationController: UINavigationController
     private var homeVC: HomeViewController?
+    private var homeVM: HomeViewModel?
 
     init(navigationController: UINavigationController = UINavigationController()) {
         self.navigationController = navigationController
@@ -29,6 +30,10 @@ class Navigator {
     }
     
     private func getHomeViewController() -> UIViewController {
-        return HomeViewController(nibName: nil, bundle: nil)
+        let viewModel = HomeViewModel()
+        let viewController = HomeViewController(viewModel: viewModel)
+        homeVM = viewModel
+        homeVC = viewController
+        return viewController
     }
 }

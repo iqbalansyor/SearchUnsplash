@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoListView" customModule="SearchUnsplash" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="u58-lQ-U0L"/>
+                <outlet property="loadMoreIndicator" destination="eV6-SZ-TPz" id="dQo-9x-mPV"/>
+                <outlet property="loadingIndicator" destination="sgD-T3-kwY" id="hgl-fm-LJY"/>
+                <outlet property="photoBottomConstraint" destination="qGe-Ex-K5G" id="CsA-Zw-bKE"/>
+                <outlet property="photoCollectionView" destination="0hV-YP-gxR" id="8SD-dp-trE"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="eV6-SZ-TPz">
+                    <rect key="frame" x="188.5" y="825" width="37" height="37"/>
+                </activityIndicatorView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0hV-YP-gxR">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <collectionViewLayout key="collectionViewLayout" id="0hc-1T-Cts" customClass="CustomLayout" customModule="SearchUnsplash" customModuleProvider="target"/>
+                </collectionView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="sgD-T3-kwY">
+                    <rect key="frame" x="188.5" y="434.5" width="37" height="37"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0hV-YP-gxR" secondAttribute="trailing" id="ENu-36-e8A"/>
+                <constraint firstItem="sgD-T3-kwY" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="HbZ-ux-d2o"/>
+                <constraint firstItem="sgD-T3-kwY" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="R99-CO-v47"/>
+                <constraint firstItem="0hV-YP-gxR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hE9-wv-5Bz"/>
+                <constraint firstItem="0hV-YP-gxR" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ncR-Zj-n7M"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="eV6-SZ-TPz" secondAttribute="bottom" id="qGe-Ex-K5G"/>
+                <constraint firstItem="eV6-SZ-TPz" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="qky-ui-8Lw"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="0hV-YP-gxR" secondAttribute="top" id="qq3-bN-ymr"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="139" y="97"/>
+        </view>
+    </objects>
+</document>
