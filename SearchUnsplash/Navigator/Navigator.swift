@@ -53,17 +53,19 @@ class Navigator {
     }
     
     private func getPhotoResult(query: String) -> UIViewController {
-        let viewController = PhotoResutlViewController(query: query)
-//        viewController.onActions = { [weak self] actions in
-//            guard let `self` = self else {
-//                return
-//            }
-//
-//            switch actions {
-//            case .detail(let query): break
-//            }
-//
-//        }
+        let viewModel = PhotoResultViewModel(query: query)
+        let viewController = PhotoResutlViewController(viewModel: viewModel)
+        viewController.onActions = { [weak self] actions in
+            guard let `self` = self else {
+                return
+            }
+
+            switch actions {
+            case .back:
+                self.navigationController.popViewController(animated: true)
+            }
+
+        }
         return viewController
     }
 }

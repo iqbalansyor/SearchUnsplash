@@ -70,6 +70,9 @@ class PhotoListView: UIView {
         photoCollectionView.register(
             UINib(nibName: String(describing: PhotoCell.self), bundle: nil),
             forCellWithReuseIdentifier: String(describing: PhotoCell.self))
+        photoCollectionView.register(
+            UINib(nibName: String(describing: EmptyPhotoCell.self), bundle: nil),
+            forCellWithReuseIdentifier: String(describing: EmptyPhotoCell.self))
         
         refresher = UIRefreshControl()
         guard let refresher = refresher else { return }
@@ -100,6 +103,10 @@ extension PhotoListView: UICollectionViewDelegate {
 extension PhotoListView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return  0 }
+        let shouldShowEmpty = viewModel.cellViewModels.count == 0
+        if (shouldShowEmpty) {
+           return 1
+        }
         return viewModel.cellViewModels.count
     }
     
@@ -111,7 +118,12 @@ extension PhotoListView: UICollectionViewDataSource {
         
         let shouldShowEmpty = viewModel.cellViewModels.count == 0
         if (shouldShowEmpty) {
-            // TODO: Dequeque empty state cell
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: EmptyPhotoCell.self),
+                for: indexPath) as? EmptyPhotoCell else {
+                    return EmptyPhotoCell()
+            }
+            return cell
         }
         
         guard let cell = collectionView.dequeueReusableCell(
@@ -152,6 +164,12 @@ extension PhotoListView: CustomLayoutDelegate {
         _ collectionView: UICollectionView,
         heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
         guard let viewModel = viewModel  else { return 0 }
+        
+        let shouldShowEmpty = viewModel.cellViewModels.count == 0
+        if (shouldShowEmpty) {
+            return 100
+        }
+        
         let width: CGFloat = (UIScreen.main.bounds.width - 18) / 2
         let cellViewModel = viewModel.cellViewModels[indexPath.row]
         let height = (cellViewModel.height / cellViewModel.width) * width

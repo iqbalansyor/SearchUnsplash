@@ -52,7 +52,7 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6l-tC-Hge">
                     <rect key="frame" x="16" y="104" width="382" height="40"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search.png" translatesAutoresizingMaskIntoConstraints="NO" id="9bi-8e-9iM">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search.png" translatesAutoresizingMaskIntoConstraints="NO" id="9bi-8e-9iM">
                             <rect key="frame" x="16" y="12" width="16" height="16"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="16" id="Ms2-do-G4n"/>
@@ -99,6 +99,6 @@
         </view>
     </objects>
     <resources>
-        <image name="search.png" width="50" height="50"/>
+        <image name="Search.png" width="50" height="50"/>
     </resources>
 </document>
