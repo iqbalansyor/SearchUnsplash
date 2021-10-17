@@ -58,8 +58,10 @@ class PhotoCell: UICollectionViewCell {
     
     private func showLoading(state: Bool) {
         if (state) {
+            backgroundColor = UIColor.lightGray
             loadingIndicator.startAnimating()
         } else {
+            backgroundColor = UIColor.clear
             loadingIndicator.stopAnimating()
         }
         loadingIndicator.isHidden = !state

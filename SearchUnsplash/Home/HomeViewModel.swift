@@ -18,17 +18,21 @@ class HomeViewModel {
     
     let photoListViewModel = PhotoListViewModel()
     
+    func load() {
+        photoListViewModel.load()
+    }
+    
     var cellViewModels: [PhotoCellViewModel] = []
     weak var delegate: HomeViewModelDelegate?
     private var page: Int = 1
     var isLoadMore: Bool = false
     
-    func load() {
-        page = 1
-        isLoadMore = false
-        
-        getPhotos()
-    }
+//    func load() {
+//        page = 1
+//        isLoadMore = false
+//
+//        getPhotos()
+//    }
     
     func loadMore() {
         if (isLoadMore) { return }
@@ -80,7 +84,7 @@ class HomeViewModel {
             print(error)
         }
         
-        ApiService.get(
+        ApiService.GET(
             parameter: parameters,
             onSuccess: onSuccess,
             onError: onError

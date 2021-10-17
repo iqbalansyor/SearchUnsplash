@@ -9,15 +9,15 @@
 import UIKit
 
 class PhotoListView: UIView {
-
+    
     @IBOutlet private var contentView: UIView!
-
+    
     @IBOutlet private weak var photoCollectionView: UICollectionView!
     @IBOutlet private weak var loadMoreIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var photoBottomConstraint: NSLayoutConstraint!
     private var viewModel: PhotoListViewModel?
- 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -30,12 +30,12 @@ class PhotoListView: UIView {
     
     func bindViewModel(viewModel: PhotoListViewModel) {
         self.viewModel = viewModel
-        
+        viewModel.delegate = self
         photoCollectionView.reloadData()
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("ExpenseListView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("PhotoListView", owner: self, options: nil)
         guard let content = contentView else { return }
         content.frame = self.bounds
         content.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -54,6 +54,17 @@ class PhotoListView: UIView {
         photoCollectionView.register(
             UINib(nibName: String(describing: PhotoCell.self), bundle: nil),
             forCellWithReuseIdentifier: String(describing: PhotoCell.self))
+        //photoCollectionView.d
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            if (viewModel?.isLoadMore == true) { return }
+            viewModel?.loadMore()
+        }
     }
 }
 

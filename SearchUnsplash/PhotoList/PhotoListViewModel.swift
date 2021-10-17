@@ -19,6 +19,11 @@ class PhotoListViewModel {
     weak var delegate: PhotoListViewModelDelegate?
     private var page: Int = 1
     var isLoadMore: Bool = false
+    private let photoService: PhotoServiceBase
+    
+    init(service: PhotoServiceBase = PhotoService()) {
+        self.photoService = service
+    }
     
     func load() {
         page = 1
@@ -77,7 +82,7 @@ class PhotoListViewModel {
             print(error)
         }
         
-        ApiService.get(
+        photoService.getPhotos(
             parameter: parameters,
             onSuccess: onSuccess,
             onError: onError

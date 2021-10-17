@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var loadMoreIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var photoBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var photoListView: PhotoListView!
     
     private let viewModel: HomeViewModel
     
@@ -31,10 +32,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        
-        configureCollectionView()
         configureCornerRadius()
+        configurePhotoListView()
         viewModel.load()
+    }
+    
+    private func configurePhotoListView() {
+        photoListView.bindViewModel(viewModel: viewModel.photoListViewModel)
     }
     
     private func configureCollectionView() {

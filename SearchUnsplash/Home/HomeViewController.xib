@@ -13,6 +13,7 @@
                 <outlet property="loadingIndicator" destination="OZb-Q2-Zay" id="Vya-gQ-BiJ"/>
                 <outlet property="photoBottomConstraint" destination="lbW-ch-H97" id="hIb-qP-Wdz"/>
                 <outlet property="photoCollectionView" destination="ycr-n0-Ye5" id="Lss-gp-Mrp"/>
+                <outlet property="photoListView" destination="tyG-vo-J0y" id="mbZ-xU-sZh"/>
                 <outlet property="searchContainerView" destination="b6l-tC-Hge" id="GAI-Lr-kdk"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -51,7 +52,7 @@
                     <rect key="frame" x="0.0" y="162" width="414" height="700"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d83-XQ-4x7">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d83-XQ-4x7">
                     <rect key="frame" x="0.0" y="162" width="414" height="700"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="8NH-7s-Utu">

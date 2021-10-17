@@ -14,7 +14,7 @@ struct Error {
 }
 
 class ApiService {
-    static func get<T: Decodable>(
+    static func GET<T: Decodable>(
         parameter: [String: Any],
         onSuccess: ((T?) -> Void)?,
         onError: ((Error) -> Void)?) {
