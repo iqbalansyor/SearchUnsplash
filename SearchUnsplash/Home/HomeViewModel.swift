@@ -11,8 +11,11 @@ import UIKit
 class HomeViewModel {
     
     let photoListViewModel = PhotoListViewModel()
+    private let RANDOM_QUERY = "random"
     
     func load() {
-        photoListViewModel.load()
+        var parameter = [String: Any]()
+        parameter["query"] = RANDOM_QUERY
+        photoListViewModel.load(with: parameter)
     }
 }

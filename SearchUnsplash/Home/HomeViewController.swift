@@ -12,8 +12,15 @@ import Combine
 
 class HomeViewController: UIViewController {
     
+    enum Actions {
+        case detail(query: String)
+    }
+    
+    var onActions: ((Actions) -> Void)?
+    
     @IBOutlet private weak var searchContainerView: UIView!
     @IBOutlet private weak var photoListView: PhotoListView!
+    @IBOutlet private weak var searchTextField: UITextField!
     
     private let viewModel: HomeViewModel
     private var cancellable: AnyCancellable?
@@ -34,6 +41,7 @@ class HomeViewController: UIViewController {
         configureCornerRadius()
         configurePhotoListView()
         viewModel.load()
+        searchTextField.delegate = self
     }
     
     private func configurePhotoListView() {
@@ -43,6 +51,15 @@ class HomeViewController: UIViewController {
     
     private func configureCornerRadius() {
         searchContainerView.layer.cornerRadius = 8
+    }
+}
+
+extension HomeViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text else { return false }
+        textField.resignFirstResponder()
+        onActions?(.detail(query: text))
+        return true
     }
 }
 

@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="photoListView" destination="tyG-vo-J0y" id="mbZ-xU-sZh"/>
                 <outlet property="searchContainerView" destination="b6l-tC-Hge" id="GAI-Lr-kdk"/>
+                <outlet property="searchTextField" destination="ffT-PS-0TP" id="aXm-Ft-N3H"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

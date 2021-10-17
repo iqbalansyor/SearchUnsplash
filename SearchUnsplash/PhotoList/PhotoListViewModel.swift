@@ -23,9 +23,9 @@ class PhotoListViewModel {
     
     // Private properties
     private var page: Int = 1
-    private let RANDOM_QUERY = "random"
     private let photoService: PhotoServiceBase
     private var isOnRefresh: Bool = false
+    private var parameter: [String: Any] = [:]
     
     init(service: PhotoServiceBase = PhotoService()) {
         self.photoService = service
@@ -33,11 +33,11 @@ class PhotoListViewModel {
     
     // Public methods
     
-    func load() {
+    func load(with parameter: [String: Any]) {
         page = 1
         isLoadMore = false
-        
-        getPhotos()
+        self.parameter = parameter
+        getPhotos(with: parameter)
     }
     
     func loadMore() {
@@ -45,25 +45,20 @@ class PhotoListViewModel {
         page += 1
         isLoadMore = true
         
-        getPhotos()
+        getPhotos(with: parameter)
     }
     
     func refresh() {
         isOnRefresh = true
-        load()
+        load(with: parameter)
     }
     
     // Private methods
-    private func getPhotos() {
-        var parameters: [String: Any] = [:]
-        parameters["query"] = RANDOM_QUERY
-        parameters["page"] = page
-        parameters["per_page"] = 10
-        
-        getPhotos(with: parameters)
-    }
-    
     private func getPhotos(with parameters: [String: Any]) {
+        var newParameter = parameters
+        newParameter["page"] = page
+        newParameter["per_page"] = 10
+        
         if (isLoadMore) {
             delegate?.showLoadingMore(state: true)
         } else if (isOnRefresh) {
@@ -110,7 +105,7 @@ class PhotoListViewModel {
         }
         
         photoService.getPhotos(
-            parameter: parameters,
+            parameter: newParameter,
             onSuccess: onSuccess,
             onError: onError
         )

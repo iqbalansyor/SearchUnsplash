@@ -34,6 +34,36 @@ class Navigator {
         let viewController = HomeViewController(viewModel: viewModel)
         homeVM = viewModel
         homeVC = viewController
+        
+        viewController.onActions = { [weak self] actions in
+            guard let `self` = self else {
+                return
+            }
+            
+            switch actions {
+            case .detail(let query):
+                self.navigationController.pushViewController(
+                    self.getPhotoResult(query: query),
+                    animated: true
+                )
+            }
+            
+        }
+        return viewController
+    }
+    
+    private func getPhotoResult(query: String) -> UIViewController {
+        let viewController = PhotoResutlViewController(query: query)
+//        viewController.onActions = { [weak self] actions in
+//            guard let `self` = self else {
+//                return
+//            }
+//
+//            switch actions {
+//            case .detail(let query): break
+//            }
+//
+//        }
         return viewController
     }
 }

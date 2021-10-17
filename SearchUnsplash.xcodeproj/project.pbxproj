@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8F91EC8E56EE7DD1D26A5CAA /* Pods_SearchUnsplash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC58935C4FAED0086366682 /* Pods_SearchUnsplash.framework */; };
+		F002E8B3271BCA3000AAF597 /* PhotoResutlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002E8B1271BCA3000AAF597 /* PhotoResutlViewController.swift */; };
+		F002E8B4271BCA3000AAF597 /* PhotoResutlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F002E8B2271BCA3000AAF597 /* PhotoResutlViewController.xib */; };
 		F014C126271676DD007CAB48 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014C125271676DD007CAB48 /* Navigator.swift */; };
 		F014C12A2716774B007CAB48 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014C1282716774B007CAB48 /* HomeViewController.swift */; };
 		F014C12B2716774B007CAB48 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F014C1292716774B007CAB48 /* HomeViewController.xib */; };
@@ -56,6 +58,8 @@
 		76BFAF3A602147ED86D90E49 /* Pods-SearchUnsplash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchUnsplash.release.xcconfig"; path = "Target Support Files/Pods-SearchUnsplash/Pods-SearchUnsplash.release.xcconfig"; sourceTree = "<group>"; };
 		9BC58935C4FAED0086366682 /* Pods_SearchUnsplash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchUnsplash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D56C2AC453405ECAB891BEF7 /* Pods-SearchUnsplash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchUnsplash.debug.xcconfig"; path = "Target Support Files/Pods-SearchUnsplash/Pods-SearchUnsplash.debug.xcconfig"; sourceTree = "<group>"; };
+		F002E8B1271BCA3000AAF597 /* PhotoResutlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResutlViewController.swift; sourceTree = "<group>"; };
+		F002E8B2271BCA3000AAF597 /* PhotoResutlViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoResutlViewController.xib; sourceTree = "<group>"; };
 		F014C125271676DD007CAB48 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		F014C1282716774B007CAB48 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F014C1292716774B007CAB48 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -122,6 +126,15 @@
 				76BFAF3A602147ED86D90E49 /* Pods-SearchUnsplash.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		F002E8B0271BCA0E00AAF597 /* PhotoResult */ = {
+			isa = PBXGroup;
+			children = (
+				F002E8B1271BCA3000AAF597 /* PhotoResutlViewController.swift */,
+				F002E8B2271BCA3000AAF597 /* PhotoResutlViewController.xib */,
+			);
+			path = PhotoResult;
 			sourceTree = "<group>";
 		};
 		F014C124271676B8007CAB48 /* Navigator */ = {
@@ -238,6 +251,7 @@
 		F0B6B4C627158AB500A1AD28 /* SearchUnsplash */ = {
 			isa = PBXGroup;
 			children = (
+				F002E8B0271BCA0E00AAF597 /* PhotoResult */,
 				F06DEAEE271ADFF100C0201C /* PhotoList */,
 				F0FC8F6F2719309A004174A3 /* Networking */,
 				F08088F12718727A00203E3A /* Entity */,
@@ -397,6 +411,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F002E8B4271BCA3000AAF597 /* PhotoResutlViewController.xib in Resources */,
 				F0B6B4D727158AB700A1AD28 /* LaunchScreen.storyboard in Resources */,
 				F0B6B4D427158AB700A1AD28 /* Assets.xcassets in Resources */,
 				F014C12B2716774B007CAB48 /* HomeViewController.xib in Resources */,
@@ -479,6 +494,7 @@
 				F093280F27179FD3003A894B /* HomeViewModel.swift in Sources */,
 				F0B6B4CA27158AB500A1AD28 /* SceneDelegate.swift in Sources */,
 				F0B6B4D227158AB500A1AD28 /* SearchUnsplash.xcdatamodeld in Sources */,
+				F002E8B3271BCA3000AAF597 /* PhotoResutlViewController.swift in Sources */,
 				F09328122717AE14003A894B /* CustomLayout.swift in Sources */,
 				F06DEAED271AD9F300C0201C /* KeyManager.swift in Sources */,
 				F093280A27179AE9003A894B /* PhotoCell.swift in Sources */,
