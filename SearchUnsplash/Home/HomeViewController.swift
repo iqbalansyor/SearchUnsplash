@@ -8,17 +8,16 @@
 
 import UIKit
 import Alamofire
+import Combine
 
 class HomeViewController: UIViewController {
     
     @IBOutlet private weak var searchContainerView: UIView!
-    @IBOutlet private weak var photoCollectionView: UICollectionView!
-    @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var loadMoreIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var photoBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var photoListView: PhotoListView!
     
     private let viewModel: HomeViewModel
+    private var cancellable: AnyCancellable?
+    private var animator: UIViewPropertyAnimator?
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -31,7 +30,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.delegate = self
+        
         configureCornerRadius()
         configurePhotoListView()
         viewModel.load()
@@ -39,119 +38,57 @@ class HomeViewController: UIViewController {
     
     private func configurePhotoListView() {
         photoListView.bindViewModel(viewModel: viewModel.photoListViewModel)
-    }
-    
-    private func configureCollectionView() {
-        if let layout = photoCollectionView.collectionViewLayout as? CustomLayout {
-            layout.delegate = self
-        }
-        photoCollectionView.dataSource = self
-        photoCollectionView.delegate = self
-        
-        photoCollectionView.register(
-            UINib(nibName: String(describing: PhotoCell.self), bundle: nil),
-            forCellWithReuseIdentifier: String(describing: PhotoCell.self))
+        photoListView.delegate = self
     }
     
     private func configureCornerRadius() {
         searchContainerView.layer.cornerRadius = 8
     }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-
-        if offsetY > contentHeight - scrollView.frame.size.height {
-            if (viewModel.isLoadMore) { return }
-            viewModel.loadMore()
-        }
-    }
 }
 
-extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension HomeViewController: PhotoListViewDelegate {
+    func onSelectPhoto(url: String) {
+        animator?.stopAnimation(true)
+        cancellable?.cancel()
         
-    }
-}
-
-extension HomeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("&&& count \(viewModel.cellViewModels.count)")
-        return viewModel.cellViewModels.count
+        let newImageView = UIImageView()
+        newImageView.frame = UIScreen.main.bounds
+        newImageView.backgroundColor = .black
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        newImageView.addGestureRecognizer(tap)
+        self.view.addSubview(newImageView)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+        
+        cancellable = loadImage(for: url)
+            .sink { [weak self] image in
+                self?.showImage(imageView: newImageView, image: image)
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let shouldShowEmpty = viewModel.cellViewModels.count == 0
-        print("&&& count cellfor \(viewModel.cellViewModels.count)")
-        if (shouldShowEmpty) {
-            // TODO: Dequeque empty state cell
-        }
-        
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: String(describing: PhotoCell.self),
-            for: indexPath) as? PhotoCell else {
-                return PhotoCell()
-        }
-        
-        print("&&& render cell")
-        
-        return cell
+    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let count = viewModel.cellViewModels.count
-        guard count > 0,
-            let cell = cell as? PhotoCell else {
-                return
-        }
-        
-        let cellViewModel = viewModel.cellViewModels[indexPath.row]
-        print("&&& display cell \(cellViewModel.photoUrl)")
-        cell.bindViewModel(viewModel: cellViewModel)
-    }
-}
-
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = (UIScreen.main.bounds.width - 18) / 2
-        let cellViewModel = viewModel.cellViewModels[indexPath.row]
-        let height = (cellViewModel.height / cellViewModel.width) * width
-        return CGSize(width: width, height: height)
-    }
-}
-
-extension HomeViewController: CustomLayoutDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
-        let width: CGFloat = (UIScreen.main.bounds.width - 18) / 2
-        let cellViewModel = viewModel.cellViewModels[indexPath.row]
-        let height = (cellViewModel.height / cellViewModel.width) * width
-        return height
-    }
-}
-
-extension HomeViewController: HomeViewModelDelegate {
-    func showLoading(state: Bool) {
-        if (state) {
-            loadingIndicator.startAnimating()
-        } else {
-            loadingIndicator.stopAnimating()
-        }
-        loadingIndicator.isHidden = !state
-        photoCollectionView.isHidden = state
+    private func showImage(imageView: UIImageView, image: UIImage?) {
+        imageView.alpha = 0.0
+        animator?.stopAnimation(true)
+        imageView.image = image
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
+            imageView.alpha = 1.0
+        })
     }
     
-    func reloadData() {
-        photoCollectionView.reloadData()
-    }
-    
-    func showLoadingMore(state: Bool) {
-        loadMoreIndicator.isHidden = !state
-        if (state) {
-            photoBottomConstraint.constant = 47.0
-        } else {
-            photoBottomConstraint.constant = 0.0
-        }
+    private func loadImage(for url: String) -> AnyPublisher<UIImage?, Never> {
+        return Just(url)
+            .flatMap({ poster -> AnyPublisher<UIImage?, Never> in
+                let url = URL(string: url)!
+                return ImageLoader.shared.loadImage(from: url)
+            })
+            .eraseToAnyPublisher()
     }
 }

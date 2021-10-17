@@ -25,9 +25,6 @@ class PhotoCell: UICollectionViewCell {
     }
     
     func bindViewModel(viewModel: PhotoCellViewModel) {
-        //        imageView.sd_setImage(
-        //            with: URL(string: viewModel.photoUrl),
-        //            placeholderImage: nil)
         cancellable = loadImage(for: viewModel.photoUrl)
             .sink { [weak self] image in
                 self?.showImage(image: image)

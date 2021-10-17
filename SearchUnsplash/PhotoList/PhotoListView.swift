@@ -8,15 +8,21 @@
 
 import UIKit
 
+protocol PhotoListViewDelegate: class {
+    func onSelectPhoto(url: String)
+}
+
 class PhotoListView: UIView {
     
-    @IBOutlet private var contentView: UIView!
+    weak var delegate: PhotoListViewDelegate?
     
+    @IBOutlet private var contentView: UIView!
     @IBOutlet private weak var photoCollectionView: UICollectionView!
     @IBOutlet private weak var loadMoreIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var photoBottomConstraint: NSLayoutConstraint!
     private var viewModel: PhotoListViewModel?
+    private var refresher: UIRefreshControl?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,6 +38,16 @@ class PhotoListView: UIView {
         self.viewModel = viewModel
         viewModel.delegate = self
         photoCollectionView.reloadData()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.size.height {
+            if (viewModel?.isLoadMore == true) { return }
+            viewModel?.loadMore()
+        }
     }
     
     private func commonInit() {
@@ -54,30 +70,36 @@ class PhotoListView: UIView {
         photoCollectionView.register(
             UINib(nibName: String(describing: PhotoCell.self), bundle: nil),
             forCellWithReuseIdentifier: String(describing: PhotoCell.self))
-        //photoCollectionView.d
+        
+        refresher = UIRefreshControl()
+        guard let refresher = refresher else { return }
+        photoCollectionView.alwaysBounceVertical = true
+        refresher.tintColor = UIColor.red
+        refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        photoCollectionView.addSubview(refresher)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        
-        if offsetY > contentHeight - scrollView.frame.size.height {
-            if (viewModel?.isLoadMore == true) { return }
-            viewModel?.loadMore()
-        }
+    @objc private func loadData() {
+        viewModel?.refresh()
     }
 }
 
 extension PhotoListView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+            viewModel.cellViewModels.count > 0 else {
+                return
+        }
         
+        let cellViewModel = viewModel.cellViewModels[indexPath.row]
+        let url = cellViewModel.fullPhotoUrl
+        delegate?.onSelectPhoto(url: url)
     }
 }
 
 extension PhotoListView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return  0 }
-        print("&&& count \(viewModel.cellViewModels.count)")
         return viewModel.cellViewModels.count
     }
     
@@ -88,7 +110,6 @@ extension PhotoListView: UICollectionViewDataSource {
         }
         
         let shouldShowEmpty = viewModel.cellViewModels.count == 0
-        print("&&& count cellfor \(viewModel.cellViewModels.count)")
         if (shouldShowEmpty) {
             // TODO: Dequeque empty state cell
         }
@@ -98,8 +119,6 @@ extension PhotoListView: UICollectionViewDataSource {
             for: indexPath) as? PhotoCell else {
                 return PhotoCell()
         }
-        
-        print("&&& render cell")
         
         return cell
     }
@@ -161,6 +180,14 @@ extension PhotoListView: PhotoListViewModelDelegate {
             photoBottomConstraint.constant = 47.0
         } else {
             photoBottomConstraint.constant = 0.0
+        }
+    }
+    
+    func onRefresh(state: Bool) {
+        if (state) {
+            refresher?.beginRefreshing()
+        } else {
+            refresher?.endRefreshing()
         }
     }
 }

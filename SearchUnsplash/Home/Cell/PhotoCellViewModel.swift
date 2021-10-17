@@ -9,7 +9,8 @@
 import UIKit
 
 class PhotoCellViewModel {
-    var photoUrl = "https://picsum.photos/200/300"
+    var photoUrl: String
+    var fullPhotoUrl: String
     var width: CGFloat =  200
     var height: CGFloat = 300
     
@@ -17,5 +18,6 @@ class PhotoCellViewModel {
         self.height = height
         self.width = width
         self.photoUrl = url
+        self.fullPhotoUrl = url
     }
 }
