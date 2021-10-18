@@ -13,6 +13,7 @@ protocol PhotoListViewModelDelegate: class {
     func showLoadingMore(state: Bool)
     func reloadData()
     func onRefresh(state: Bool)
+    func showError(message: String)
 }
 
 class PhotoListViewModel {
@@ -100,8 +101,9 @@ class PhotoListViewModel {
             }
             self.delegate?.reloadData()
         }
-        let onError = { (error: Error) in
-            print(error)
+        
+        let onError: ((Error) -> (Void))? = { [weak self] (error: Error) in
+            self?.delegate?.showError(message: error.errorMessage ?? "")
         }
         
         photoService.getPhotos(

@@ -13,14 +13,19 @@ class PhotoResultViewModel {
     let query: String
     
     let photoListViewModel: PhotoListViewModel = PhotoListViewModel()
+    let filterViewModel: FilterViewModel = FilterViewModel()
     
     init(query: String) {
         self.query = query
     }
     
-    func load() {
-        var parameter = [String: Any]()
-        parameter["query"] = query
-        photoListViewModel.load(with: parameter)
+    func load(parameter: [String: Any] = [:]) {
+        var newParameter = [String: Any]()
+        newParameter["query"] = query
+        
+        parameter.forEach { (key, value) in
+            newParameter[key] = value
+        }
+        photoListViewModel.load(with: newParameter)
     }
 }

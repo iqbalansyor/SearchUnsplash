@@ -10,6 +10,7 @@ import UIKit
 
 protocol PhotoListViewDelegate: class {
     func onSelectPhoto(url: String)
+    func showError(message: String)
 }
 
 class PhotoListView: UIView {
@@ -21,8 +22,12 @@ class PhotoListView: UIView {
     @IBOutlet private weak var loadMoreIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var photoBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var errorView: UIView!
+    
     private var viewModel: PhotoListViewModel?
     private var refresher: UIRefreshControl?
+    private let PHOTO_BOTTOM_CONSTRAINT: CGFloat = 47
+    private let INSET_WIDTH: CGFloat = 18
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -170,7 +175,7 @@ extension PhotoListView: CustomLayoutDelegate {
             return 100
         }
         
-        let width: CGFloat = (UIScreen.main.bounds.width - 18) / 2
+        let width: CGFloat = (UIScreen.main.bounds.width - INSET_WIDTH) / 2
         let cellViewModel = viewModel.cellViewModels[indexPath.row]
         let height = (cellViewModel.height / cellViewModel.width) * width
         return height
@@ -180,6 +185,7 @@ extension PhotoListView: CustomLayoutDelegate {
 extension PhotoListView: PhotoListViewModelDelegate {
     func showLoading(state: Bool) {
         if (state) {
+            errorView.isHidden = true
             loadingIndicator.startAnimating()
         } else {
             loadingIndicator.stopAnimating()
@@ -195,7 +201,7 @@ extension PhotoListView: PhotoListViewModelDelegate {
     func showLoadingMore(state: Bool) {
         loadMoreIndicator.isHidden = !state
         if (state) {
-            photoBottomConstraint.constant = 47.0
+            photoBottomConstraint.constant = PHOTO_BOTTOM_CONSTRAINT
         } else {
             photoBottomConstraint.constant = 0.0
         }
@@ -207,5 +213,10 @@ extension PhotoListView: PhotoListViewModelDelegate {
         } else {
             refresher?.endRefreshing()
         }
+    }
+    
+    func showError(message: String) {
+        errorView.isHidden = false
+        delegate?.showError(message: message)
     }
 }

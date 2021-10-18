@@ -108,4 +108,8 @@ extension HomeViewController: PhotoListViewDelegate {
             })
             .eraseToAnyPublisher()
     }
+    
+    func showError(message: String) {
+        showToast(message: message)
+    }
 }

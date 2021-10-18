@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoListView" customModule="SearchUnsplash" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="u58-lQ-U0L"/>
+                <outlet property="errorView" destination="2qG-MS-Hl3" id="xcy-GG-LYp"/>
                 <outlet property="loadMoreIndicator" destination="eV6-SZ-TPz" id="dQo-9x-mPV"/>
                 <outlet property="loadingIndicator" destination="sgD-T3-kwY" id="hgl-fm-LJY"/>
                 <outlet property="photoBottomConstraint" destination="qGe-Ex-K5G" id="CsA-Zw-bKE"/>
@@ -32,17 +33,38 @@
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="sgD-T3-kwY">
                     <rect key="frame" x="188.5" y="434.5" width="37" height="37"/>
                 </activityIndicatorView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qG-MS-Hl3">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Something wrong, please try again later or choose another keyword or filter" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuk-I9-JtQ">
+                            <rect key="frame" x="144" y="343" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="wuk-I9-JtQ" firstAttribute="centerY" secondItem="2qG-MS-Hl3" secondAttribute="centerY" id="AUr-NQ-jSZ"/>
+                        <constraint firstItem="wuk-I9-JtQ" firstAttribute="leading" secondItem="2qG-MS-Hl3" secondAttribute="leading" constant="32" id="ogR-HK-p2i"/>
+                        <constraint firstItem="wuk-I9-JtQ" firstAttribute="centerX" secondItem="2qG-MS-Hl3" secondAttribute="centerX" id="poF-NF-WDR"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="2qG-MS-Hl3" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="CvL-5e-Riu"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0hV-YP-gxR" secondAttribute="trailing" id="ENu-36-e8A"/>
                 <constraint firstItem="sgD-T3-kwY" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="HbZ-ux-d2o"/>
                 <constraint firstItem="sgD-T3-kwY" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="R99-CO-v47"/>
                 <constraint firstItem="0hV-YP-gxR" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hE9-wv-5Bz"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="2qG-MS-Hl3" secondAttribute="bottom" id="m4p-UE-8aA"/>
                 <constraint firstItem="0hV-YP-gxR" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ncR-Zj-n7M"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="eV6-SZ-TPz" secondAttribute="bottom" id="qGe-Ex-K5G"/>
                 <constraint firstItem="eV6-SZ-TPz" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="qky-ui-8Lw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="0hV-YP-gxR" secondAttribute="top" id="qq3-bN-ymr"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2qG-MS-Hl3" secondAttribute="trailing" id="tiS-pq-rVY"/>
+                <constraint firstItem="2qG-MS-Hl3" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="yay-e4-n7U"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="139" y="97"/>
