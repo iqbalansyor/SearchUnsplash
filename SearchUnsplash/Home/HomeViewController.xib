@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="photoListView" destination="tyG-vo-J0y" id="mbZ-xU-sZh"/>
                 <outlet property="searchContainerView" destination="b6l-tC-Hge" id="GAI-Lr-kdk"/>
+                <outlet property="searchImageView" destination="9bi-8e-9iM" id="dcr-F8-Akv"/>
                 <outlet property="searchTextField" destination="ffT-PS-0TP" id="aXm-Ft-N3H"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -52,29 +53,29 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6l-tC-Hge">
                     <rect key="frame" x="16" y="104" width="382" height="40"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search.png" translatesAutoresizingMaskIntoConstraints="NO" id="9bi-8e-9iM">
-                            <rect key="frame" x="16" y="12" width="16" height="16"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="16" id="Ms2-do-G4n"/>
-                                <constraint firstAttribute="height" constant="16" id="Ycf-Q2-KLK"/>
-                            </constraints>
-                        </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search e.g. Office" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ffT-PS-0TP">
-                            <rect key="frame" x="48" y="0.0" width="334" height="40"/>
+                            <rect key="frame" x="16" y="0.0" width="310" height="40"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
+                        <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search.png" translatesAutoresizingMaskIntoConstraints="NO" id="9bi-8e-9iM">
+                            <rect key="frame" x="342" y="8" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="Ms2-do-G4n"/>
+                                <constraint firstAttribute="height" constant="24" id="Ycf-Q2-KLK"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" systemColor="quaternarySystemFillColor" red="0.4549019608" green="0.4549019608" blue="0.50196078430000002" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="9bi-8e-9iM" secondAttribute="trailing" constant="16" id="0hv-bG-l7o"/>
                         <constraint firstAttribute="bottom" secondItem="ffT-PS-0TP" secondAttribute="bottom" id="LoS-16-g9H"/>
                         <constraint firstItem="ffT-PS-0TP" firstAttribute="top" secondItem="b6l-tC-Hge" secondAttribute="top" id="QV3-ub-SjQ"/>
-                        <constraint firstAttribute="trailing" secondItem="ffT-PS-0TP" secondAttribute="trailing" id="YWH-FH-L88"/>
                         <constraint firstItem="9bi-8e-9iM" firstAttribute="centerY" secondItem="b6l-tC-Hge" secondAttribute="centerY" id="Ytn-wH-nPO"/>
-                        <constraint firstItem="ffT-PS-0TP" firstAttribute="leading" secondItem="9bi-8e-9iM" secondAttribute="trailing" constant="16" id="Yyv-ft-MFV"/>
-                        <constraint firstItem="9bi-8e-9iM" firstAttribute="leading" secondItem="b6l-tC-Hge" secondAttribute="leading" constant="16" id="b7C-IG-Zp8"/>
+                        <constraint firstItem="ffT-PS-0TP" firstAttribute="leading" secondItem="b6l-tC-Hge" secondAttribute="leading" constant="16" id="gwP-M3-dwV"/>
                         <constraint firstAttribute="height" constant="40" id="hwN-nP-XO1"/>
+                        <constraint firstItem="9bi-8e-9iM" firstAttribute="leading" secondItem="ffT-PS-0TP" secondAttribute="trailing" constant="16" id="iTy-wT-0dB"/>
                     </constraints>
                 </view>
             </subviews>

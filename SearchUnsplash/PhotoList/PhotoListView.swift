@@ -49,14 +49,16 @@ class PhotoListView: UIView {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
-        if offsetY > contentHeight - scrollView.frame.size.height {
+        let isOnBottom = offsetY > contentHeight - scrollView.frame.size.height
+        if isOnBottom {
             if (viewModel?.isLoadMore == true) { return }
             viewModel?.loadMore()
         }
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("PhotoListView", owner: self, options: nil)
+        Bundle.main.loadNibNamed(String(describing: PhotoListView.self),
+                                 owner: self, options: nil)
         guard let content = contentView else { return }
         content.frame = self.bounds
         content.autoresizingMask = [.flexibleHeight, .flexibleWidth]

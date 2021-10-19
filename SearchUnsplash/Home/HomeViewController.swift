@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Combine
 
-class HomeViewController: UIViewController {
+class HomeViewController: ShowableViewController {
     
     enum Actions {
         case detail(query: String)
@@ -21,10 +21,9 @@ class HomeViewController: UIViewController {
     @IBOutlet private weak var searchContainerView: UIView!
     @IBOutlet private weak var photoListView: PhotoListView!
     @IBOutlet private weak var searchTextField: UITextField!
+    @IBOutlet private weak var searchImageView: UIImageView!
     
     private let viewModel: HomeViewModel
-    private var cancellable: AnyCancellable?
-    private var animator: UIViewPropertyAnimator?
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -40,8 +39,8 @@ class HomeViewController: UIViewController {
         
         configureCornerRadius()
         configurePhotoListView()
+        configureSearchView()
         viewModel.load()
-        searchTextField.delegate = self
     }
     
     private func configurePhotoListView() {
@@ -51,6 +50,21 @@ class HomeViewController: UIViewController {
     
     private func configureCornerRadius() {
         searchContainerView.layer.cornerRadius = 8
+    }
+    
+    private func configureSearchView() {
+        searchTextField.delegate = self
+        let tap = UITapGestureRecognizer(
+            target: self,
+            action: #selector(doSearch)
+        )
+        searchImageView.addGestureRecognizer(tap)
+    }
+    
+    @objc func doSearch(sender: UITapGestureRecognizer) {
+        guard let text = searchTextField.text else { return }
+        searchTextField.resignFirstResponder()
+        onActions?(.detail(query: text))
     }
 }
 
@@ -65,48 +79,7 @@ extension HomeViewController: UITextFieldDelegate {
 
 extension HomeViewController: PhotoListViewDelegate {
     func onSelectPhoto(url: String) {
-        animator?.stopAnimation(true)
-        cancellable?.cancel()
-        
-        let newImageView = UIImageView()
-        newImageView.frame = UIScreen.main.bounds
-        newImageView.backgroundColor = .black
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
-        
-        cancellable = loadImage(for: url)
-            .sink { [weak self] image in
-                self?.showImage(imageView: newImageView, image: image)
-        }
-    }
-    
-    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
-        self.navigationController?.isNavigationBarHidden = false
-        self.tabBarController?.tabBar.isHidden = false
-        sender.view?.removeFromSuperview()
-    }
-    
-    private func showImage(imageView: UIImageView, image: UIImage?) {
-        imageView.alpha = 0.0
-        animator?.stopAnimation(true)
-        imageView.image = image
-        animator = UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
-            imageView.alpha = 1.0
-        })
-    }
-    
-    private func loadImage(for url: String) -> AnyPublisher<UIImage?, Never> {
-        return Just(url)
-            .flatMap({ poster -> AnyPublisher<UIImage?, Never> in
-                let url = URL(string: url)!
-                return ImageLoader.shared.loadImage(from: url)
-            })
-            .eraseToAnyPublisher()
+        show(url: url)
     }
     
     func showError(message: String) {
