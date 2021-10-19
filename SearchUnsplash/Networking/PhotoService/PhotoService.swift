@@ -20,7 +20,7 @@ class PhotoService : PhotoServiceBase {
         parameter: [String : Any],
         onSuccess: ((PhotoResult?) -> Void)?,
         onError: ((Error) -> Void)?) {
-        ApiService.GETT(
+        ApiService.GET(
             parameter: parameter,
             onSuccess: onSuccess,
             onError: onError
