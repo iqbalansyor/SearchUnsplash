@@ -84,7 +84,7 @@ class PhotoListView: UIView {
         refresher = UIRefreshControl()
         guard let refresher = refresher else { return }
         photoCollectionView.alwaysBounceVertical = true
-        refresher.tintColor = UIColor.red
+        refresher.tintColor = UIColor.gray
         refresher.addTarget(self, action: #selector(loadData), for: .valueChanged)
         photoCollectionView.addSubview(refresher)
     }
