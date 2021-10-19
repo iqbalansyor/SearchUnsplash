@@ -1,7 +1,5 @@
 # SearchUnsplash
 
-# SearchUnsplash
-
 ## Preview
 ![me](https://github.com/iqbalansyor/SearchUnsplash/blob/main/preview.gif)
 
